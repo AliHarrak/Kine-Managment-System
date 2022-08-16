@@ -1,0 +1,2043 @@
+openapi: 3.0.1
+info:
+  title: Kine Management System
+  description: ""
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://127.0.0.1:8000/api
+- url: http://127.0.0.1:8000/api
+tags:
+- name: Patients
+  description: Operations about Patients
+- name: Doctors
+  description: Operations about Doctosr
+- name: Users
+  description: Operations about Users
+- name: Current User
+  description: Operations about current user
+- name: Assistants
+  description: Operations about Assistants
+- name: Rooms
+  description: Informations about Rooms
+- name: Appointments
+  description: Operations about Appointments
+- name: Seances
+  description: Informations about Sceances
+- name: Treatments
+  description: Informations about Treatments
+- name: Authentication
+  description: Operations about Authentication
+- name: Diseases
+  description: Informations about Diseases
+- name: Medical Records
+  description: Operations about Medical records
+- name: Register
+  description: Register operation
+- name: Soin
+  description: Operations about Soins
+paths:
+  /patients:
+    get:
+      tags:
+      - Patients
+      summary: All patients list
+      operationId: getPatients
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Patients
+      summary: Add a new patient to the list
+      operationId: addPatient
+      requestBody:
+        description: Patient information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        200:
+          description: Patient added successfully
+          content:  
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Patient'
+        405:
+          description: Invalid input
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /patients/{patient_id}:
+    get:
+      tags:
+      - Patients
+      summary: Show patient profile by ID
+      operationId: getPatientById
+      parameters:
+      - name: patient_id
+        in: path
+        description: ID of patient to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Patients
+      summary: Update an existing patient
+      operationId: updatePatient
+      parameters:
+      - name: patient_id
+        in: path
+        description: Patient's data to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Patient information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        200:
+          description: Patient has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Patients
+      summary: Deletes a patient
+      operationId: deletePatient
+      parameters:
+      - name: patient_id
+        in: path
+        description: Patient id to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Patient has been Deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        400:
+          description: Patient cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /doctors:
+    get:
+      tags:
+      - Doctors
+      summary: All doctors list
+      operationId: getDoctors
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Doctor'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Doctors
+      summary: Add a new doctor to the list
+      operationId: addDoctor
+      requestBody:
+        description: Doctor information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        200:
+          description: Doctor added successfully
+          content:  
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        405:
+          description: Invalid input
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /doctors/{doctor_id}:
+    get:
+      tags:
+      - Doctors
+      summary: Show doctor profile by ID
+      operationId: getDoctorById
+      parameters:
+      - name: doctor_id
+        in: path
+        description: ID of doctor to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Doctors
+      summary: Update an existing doctor
+      operationId: updateDoctor
+      parameters:
+      - name: doctor_id
+        in: path
+        description: Doctor's data to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Doctor information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        200:
+          description: Doctor has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Doctors
+      summary: Deletes a doctor
+      operationId: deleteDoctor
+      parameters:
+      - name: doctor_id
+        in: path
+        description: Doctor id to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Doctor has been Deleted successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        400:
+          description: Doctor cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /assistants:
+    get:
+      tags:
+      - Assistants
+      summary: 'Get Assistant list '
+      operationId: getAssistants
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assistant'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Assistants
+      summary: Add new Assistant
+      operationId: addAssistant
+      requestBody:
+        description: Assistant information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assistant'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /assistants/{assistant_id}:
+    get:
+      tags:
+      - Assistants
+      summary: Get Assistant details by id
+      operationId: getAssistantById
+      parameters:
+      - name: assistant_id
+        in: path
+        description: 'get Assistant by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Assistants
+      summary: Updates Assistant by Id
+      operationId: updateAssistant
+      parameters:
+      - name: assistant_id
+        in: path
+        description: Assistant infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Patient information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assistant'
+      responses:
+        200:
+          description: Assistant has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Assistants
+      summary: Delete Assistant by Id
+      operationId: deleteAssistant
+      parameters:
+      - name: assistant_id
+        in: path
+        description: The Id of the Assistant that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Assistant has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        400:
+          description: Assistant cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      
+  /users:
+    get:
+      tags:
+      - Users
+      summary: 'Get Users list '
+      operationId: getUsers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Users
+      summary: Add new User
+      operationId: addUser
+      requestBody:
+        description: User information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /users/{user_id}:
+    get:
+      tags:
+      - Users
+      summary: Get User details by id
+      operationId: getUserById
+      parameters:
+      - name: user_id
+        in: path
+        description: 'get User by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Users
+      summary: Updates User by Id
+      operationId: updateUser
+      parameters:
+      - name: user_id
+        in: path
+        description: User infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Patient information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Users
+      summary: Delete User by Id
+      operationId: deleteUser
+      parameters:
+      - name: user_id
+        in: path
+        description: The Id of the User that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: User has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: User cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /currentUser:
+    get:
+      tags:
+      - Current User
+      summary: 'Show user data '
+      operationId: profileView
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CurrentUser'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Current User
+      summary: Updates logged user informations
+      operationId: updateData
+      requestBody:
+        description: Logged User information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrentUser'
+      responses:
+        default:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentUser'
+    post:
+      tags:
+      - Current User
+      summary: Log out operation
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrentUser'
+      responses:
+        200:
+          description: user logged out successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutSuccess'
+        400:
+          description: error occured ! unable to log out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /appointments:
+    get:
+      tags:
+      - Appointments
+      summary: 'Get Appointments list '
+      operationId: getAppointments
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Appointments
+      summary: Add new Appointment
+      operationId: addAppointment
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /appointments/{appoint_id}:
+    get:
+      tags:
+      - Appointments
+      summary: Get Appointment details by id
+      operationId: getAppointmentById
+      parameters:
+      - name: appoint_id
+        in: path
+        description: 'get Appointment by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Appointments
+      summary: Updates Appointment by Id
+      operationId: updateAppointment
+      parameters:
+      - name: appoint_id
+        in: path
+        description: Appointment infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+        required: true
+      responses:
+        200:
+          description: Appointment has been updated successfully
+          content: 
+            application/json::
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Appointments
+      summary: Delete Appointment by Id
+      operationId: deleteAppointment
+      parameters:
+      - name: appoint_id
+        in: path
+        description: The Id of the Appointment that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Appointment has been Canceled Successfully
+          content: 
+            application/json::
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        400:
+          description: Appointment cannot be Canceled
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /rooms:
+    get:
+      tags:
+      - Rooms
+      summary: 'Get Room list '
+      operationId: getRooms
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Rooms
+      summary: Add new room
+      operationId: addRoom
+      requestBody:
+        description: Room information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Room'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /rooms/{room_id}:
+    get:
+      tags:
+      - Rooms
+      summary: Get Room details by id
+      operationId: getRoomById
+      parameters:
+      - name: room_id
+        in: path
+        description: 'get Room by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Rooms
+      summary: Updates Room by Id
+      operationId: updateRoom
+      parameters:
+      - name: room_id
+        in: path
+        description: Room infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+      responses:
+        200:
+          description: Room has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Rooms
+      summary: Delete Room by Id
+      operationId: deleteRoom
+      parameters:
+      - name: room_id
+        in: path
+        description: The Id of the Room that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Room has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        400:
+          description: Room cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /treatments:
+    get:
+      tags:
+      - Treatments
+      summary: 'Get Treatment list '
+      operationId: getTreatments
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Treatment'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Treatments
+      summary: Add new Treatment
+      operationId: addTreatment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Treatment'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treatment'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /treatments/{treatment_id}:
+    get:
+      tags:
+      - Treatments
+      summary: Get Treatment details by id
+      operationId: getTreatmentById
+      parameters:
+      - name: treatment_id
+        in: path
+        description: 'get Treatment by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treatment'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Treatments
+      summary: Updates Treatment by Id
+      operationId: updateTreatment
+      parameters:
+      - name: treatment_id
+        in: path
+        description: Treatment infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Treatment'
+        required: true
+      responses:
+        200:
+          description: Treatment has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treatment'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Treatments
+      summary: Delete Treatment by Id
+      operationId: deleteTreatment
+      parameters:
+      - name: treatment_id
+        in: path
+        description: The Id of the Treatment that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Treatment has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treatment'
+        400:
+          description: Treatment cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /seances:
+    get:
+      tags:
+      - Seances
+      summary: 'Get Seance list '
+      operationId: getSeances
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Seance'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Seances
+      summary: Add new Seance
+      operationId: addSeance
+      requestBody:
+        description: Seance information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Seance'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seance'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /seances/{seance_id}:
+    get:
+      tags:
+      - Seances
+      summary: Get Seance details by id
+      operationId: getSeanceById
+      parameters:
+      - name: seance_id
+        in: path
+        description: 'ID of seance to return '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seance'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Seances
+      summary: Updates Seance by Id
+      operationId: updateSeance
+      parameters:
+      - name: seance_id
+        in: path
+        description: Seance infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Seance'
+        required: true
+      responses:
+        200:
+          description: Seance has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seance'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Seances
+      summary: Delete Seance by Id
+      operationId: deleteSeance
+      parameters:
+      - name: seance_id
+        in: path
+        description: The Id of the Seance that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Seance has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seance'
+        400:
+          description: Seance cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      
+      
+  /diseases:
+    get:
+      tags:
+      - Diseases
+      summary: 'Get Disease list '
+      operationId: getDiseases
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Disease'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Diseases
+      summary: Add new Disease
+      operationId: addDisease
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Disease'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /diseases/{disease_id}:
+    get:
+      tags:
+      - Diseases
+      summary: Get Disease details by id
+      operationId: getDiseaseById
+      parameters:
+      - name: disease_id
+        in: path
+        description: 'get Disease by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Diseases
+      summary: Updates Disease by Id
+      operationId: updateDisease
+      parameters:
+      - name: disease_id
+        in: path
+        description: Disease infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Disease'
+        required: true
+      responses:
+        200:
+          description: Disease has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Diseases
+      summary: Delete Disease by Id
+      operationId: deleteDisease
+      parameters:
+      - name: disease_id
+        in: path
+        description: The Id of the Disease that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Disease has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        400:
+          description: Disease cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []    
+      
+      
+      
+      
+  /medical_records:
+    get:
+      tags:
+      - Medical Records
+      summary: 'Get Medical Record list '
+      operationId: getMedicalRecords
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MedicalRecord'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Medical Records
+      summary: Add new MedicalRecord
+      operationId: addMedicalRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalRecord'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /medical_records/{record_id}:
+    get:
+      tags:
+      - Medical Records
+      summary: Get Medical Record details by id
+      operationId: getMedicalRecordById
+      parameters:
+      - name: record_id
+        in: path
+        description: 'get Medical Record by Id. '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Medical Records
+      summary: Updates Medical Record by Id
+      operationId: updateMedicalRecord
+      parameters:
+      - name: record_id
+        in: path
+        description: Medical Record infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalRecord'
+        required: true
+      responses:
+        200:
+          description: Medical Record has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Medical Records
+      summary: Delete Medical Record by Id
+      operationId: deleteMedicalRecord
+      parameters:
+      - name: record_id
+        in: path
+        description: The Id of the Medical Record that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Medical Record has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        400:
+          description: Medical Record cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      
+  /soins:
+    get:
+      tags:
+      - Soins
+      summary: 'Get Soins list '
+      operationId: getSoins
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Soin'
+        400:
+          description: Invalid tag value
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Soins
+      summary: Add new Soin
+      operationId: addSoin
+      requestBody:
+        description: Soin information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Soin'
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Soin'
+        400:
+          description: Something went wrong
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+  /soins/{soin_id}:
+    get:
+      tags:
+      - Soins
+      summary: Get Soin details by id
+      operationId: getSoineById
+      parameters:
+      - name: soin_id
+        in: path
+        description: 'ID of soin to return '
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Soin'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Soins
+      summary: Updates Soin by Id
+      operationId: updateSoin
+      parameters:
+      - name: soin_id
+        in: path
+        description: Soin infos that should be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Soin'
+        required: true
+      responses:
+        200:
+          description: Soin has been updated successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Soin'
+        400:
+          description: Invalid ID supplied
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Soins
+      summary: Delete Soin by Id
+      operationId: deleteSoin
+      parameters:
+      - name: soin_id
+        in: path
+        description: The Id of the Soin that needs to be deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Soin has been Deleted Successfully
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Soin'
+        400:
+          description: Soin cannot be Deleted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - bearerAuth: []
+      
+      
+      
+  /login:
+    post:
+      tags:
+      - Authentication
+      summary: Log in process
+      operationId: login
+      requestBody:
+        description: email and password are required
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authentication'
+      responses:
+        200:
+          description: user logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSuccess'
+        400:
+          description: error occured ! unable to log in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSuccess'
+                
+ 
+    
+                
+  /register:
+    get:
+      tags:
+      - Register
+      summary: Get Register form page
+      operationId: index
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+        400:
+          description: error occured ! unable to show register page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - Register
+      summary: Register operation
+      operationId: store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        200:
+          description: user registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterSuccess'
+        400:
+          description: error occured ! unable to sign up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterSuccess'
+components:
+  schemas:
+    Patient:
+      required:
+      - CIN
+      - birthDate
+      - name
+      - phone
+      type: object
+      properties:
+        patient_id:
+          type: integer
+          format: int64
+        CIN:
+          type: string
+          description: Numero de la carte d'identité
+        name:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        image:
+          type: string
+          description: Photo du patient
+        phone:
+          type: string
+        gender:
+          type: string
+      xml:
+        name: Patient
+    Doctor:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - required:
+        - speciality
+        type: object
+        properties:
+          doctor_id:
+            type: integer
+            format: int64
+          speciality:
+            type: string
+            description: Specialité du médecin
+    User:
+      required:
+      - CIN
+      - birthDate
+      - email
+      - name
+      - password
+      - phone
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        CIN:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        password:
+          type: string
+        address:
+          type: string
+        image:
+          type: string
+        phone:
+          type: string
+        user-type:
+          type: string
+        gender:
+          type: string
+      xml:
+        name: User
+        
+    CurrentUser:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+    Appointment:
+      allOf:
+      - $ref: '#/components/schemas/Patient'
+      - type: object
+        properties:
+          appoint_id:
+            type: integer
+            format: int64
+          date:
+            type: string
+            description: Date et Temps exactes du rendez-vous
+            format: date-time
+          treatment_id:
+            $ref: '#/components/schemas/Treatment'
+          notes:
+            type: string
+            description: Notes sur le rendez-vous
+    Seance:
+      type: object
+      properties:
+        seance_id:
+          type: integer
+          format: int64
+        room_id:
+          $ref: '#/components/schemas/Room'
+        treatment_id:
+          $ref: '#/components/schemas/Treatment'
+        seance_description:
+          type: string
+        date:
+          type: string
+          description: Date et Temps du début de la seance
+          format: date-time
+        end_time:
+          type: string
+          description: Temps du fin de la seance
+          format: time
+        notes:
+          type: string
+          description: Notes sur la seance
+        seance_status:
+          type: string
+          description: Status de la seance
+          enum:
+          - pas encore
+          - en cours
+          - done
+        done:
+          type: boolean
+          default: false
+        price:
+          type: integer
+          format: int64
+      xml:
+        name: Seance
+    Room:
+      type: object
+      properties:
+        room_id:
+          type: integer
+          format: int64
+        room_no:
+          type: integer
+          format: int64
+        room_location:
+          type: string
+      xml:
+        name: Room
+    Treatment:
+      type: object
+      properties:
+        treatment_id:
+          type: integer
+          format: int64
+        doctor_id:
+          $ref: '#/components/schemas/Doctor'
+        patient_id:
+          $ref: '#/components/schemas/Patient'
+        treatment_description:
+          type: string
+        treatment_label:
+          type: string
+        treatment_status:
+          type: string
+          description: Status du traitement
+          enum:
+          - pas encore
+          - en cours
+          - done
+        done:
+          type: boolean
+          default: false
+      xml:
+        name: Treatment
+    Assistant:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          assistant_id:
+            type: integer
+            format: int64
+          speciality:
+            type: string
+            
+    Authentication:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          
+    AuthenticationSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+          
+    Disease:
+      type: object
+      properties:
+        disease_id: 
+          type: integer
+          format: int64
+        disease_label:
+          type: string
+        disease_treatment_process:
+          type: string
+          
+    MedicalRecord:
+      type: object
+      properties:
+        record_id:
+          type: integer
+          format: int64
+        treatment_id:
+          $ref: '#/components/schemas/Treatment'
+        record_label:
+          type: string
+        record_file:
+          type: string
+        record_reference:
+          type: string
+          
+    Soin:
+      type: object
+      properties:
+        soin_id:
+          type: integer
+          format: int64
+        soin_label:
+          type: string
+        soin_description:
+          type: string
+        soin_price:
+          type: integer
+          format: int64
+          
+    Register:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+          
+    RegisterSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+          
+    LogoutSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+    Error:
+      type: object
+      properties:
+        failed:
+          type: boolean
+          default: true
+        
+          
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
