@@ -25,4 +25,11 @@ class Room extends Model
         $class .= $this->availability === 'available' ? "success" : "danger";
         return $class;
     }
+
+    function switchAvailability()
+    {
+        
+        $checkboxValue = $this->availability === 'available' ? "checked" : "default";
+        return $checkboxValue;
+    }
 }

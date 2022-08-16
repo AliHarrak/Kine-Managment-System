@@ -102,6 +102,7 @@ Route::get('/add_room_view', [RoomController::class, 'addview']);
 Route::post('/add_room', [RoomController::class, 'store']);
 Route::get('/rooms_list_view', [RoomController::class, 'index']);
 
+Route::post('/update_room', [RoomController::class, 'updateRoomAvailability'])->name('roomStatus');
 Route::delete('/delete_room/{id}', [RoomController::class, 'deleteRoom'])->name('deleteRoom');
 
 Route::get('/profile_view', [AdminController::class, 'profileView']);

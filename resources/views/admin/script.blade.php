@@ -112,3 +112,40 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> 
+<script>
+
+    $('.availability-status').on('change', function() {
+        
+        var roomAvailabilityData = {
+            'roomId' : $(this).data('room-id'),
+            'newStatus' : $(this).is(":checked") ? "available" : "occupied"
+        }
+        updateRoomAvailability(roomAvailabilityData)
+    })
+
+
+    function updateRoomAvailability(roomAvailabilityData)
+    {
+
+        $.ajax({
+            type: "POST",
+            url: '/update_room',
+            data: {roomId: roomAvailabilityData.roomId, newStatus: roomAvailabilityData.newStatus},
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                if(data.data.availability) {
+                   // toastr.success('The Room availability status has been updated')
+                }
+                else {
+                   // toastr.error('The Room availability status cannot be updated')
+                }
+            },
+            error: function() {
+               // toastr.error('The Room availability status cannot be updated')
+            }
+        })
+    }
+</script>

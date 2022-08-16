@@ -63,4 +63,35 @@ class RoomController extends Controller
      return response($room, 200);
        }
 
+    public function updateRoomAvailability(Request $request)
+    {
+        $enable = Room::where('id', $request->roomId)->update(array('availability' =>$request->newStatus));
+
+        $data["availability"] = $enable;
+        if($enable)
+        {
+            $data["message"] = "The Room availability status has been updated";
+        }
+        else {
+            $data["message"] = "The Room availability status has not been updated";
+        }
+       // return redirect()->back()->with('data', $data);
+        return response()->json(['data' => $data]);
+        
+        /* if ($room->availability == "available")
+        {
+            $room->availability = "occupied";
+        }
+        else {
+            $room->availability = "available";
+        }
+        return $room->availability;  */
+    
+   
+    
+    
+    
+    
+    }
+
     }

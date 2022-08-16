@@ -68,13 +68,13 @@
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{route('dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="doctors.html">Doctors</a>
+              <a class="nav-link" href="{{url('doctors_list_view')}}">Doctors</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="blog.html">News</a>
@@ -143,7 +143,7 @@
               <div class="circle-shape bg-accent text-white">
                 <span class="mai-basket"></span>
               </div>
-              <p style="color: white;"><span>One</span>-Health Pharmacy</p>
+              <p style="color: white;"><span>Kine</span>-MS Pharmacy</p>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 py-3 wow fadeInUp">
-            <h1>Welcome to Your Health <br> Center</h1>
+            <h1>Welcome to Your Kine <br> Center</h1>
             <p class="text-grey mb-4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Accusantium aperiam earum ipsa eius, inventore nemo labore eaque porro consequatur ex aspernatur. Explicabo, excepturi accusantium! Placeat voluptates esse ut optio facilis!</p>
             <a href="about.html" class="btn btn-primary">Learn More</a>
           </div>
@@ -171,84 +171,27 @@
   <div class="page-section bg-dark">
     <div class="container">
       <h1 class="text-center mb-5 wow fadeInUp" style="color: white;">Our Doctors</h1>
-
-      <div class="owl-carousel wow fadeInUp" id="doctorSlideshow">
-        <div class="item">
+      
+      <div class="owl-carousel wow fadeInUp" id="doctorSlideshow">      
+      @foreach($doctor as $doctors)
+      <div class="item">        
           <div class="card-doctor">
-            <div class="header">
-              <img src="../assets/img/doctors/doctor_1.jpg" alt="">
+            <div class="header">            
+              <img src="doctorimage/{{$doctors->image}}" alt="">
               <div class="meta">
                 <a href="#"><span class="mai-call"></span></a>
                 <a href="#"><span class="mai-logo-whatsapp"></span></a>
               </div>
             </div>
             <div class="body">
-              <p class="text-xl mb-0">Dr. Alexa Melvin</p>
-              <span class="text-sm text-grey">Cardiology</span>
+              <p class="text-xl mb-0">Dr. {{$doctors->name}}</p>
+              <span class="text-sm text-grey">{{$doctors->speciality}}</span>
             </div>
           </div>
         </div>
-        <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="../assets/img/doctors/doctor_2.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Lee Okinawa</p>
-              <span class="text-sm text-grey">Dental</span>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="../assets/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="../assets/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="../assets/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
+      
     </div>
   </div>
 
