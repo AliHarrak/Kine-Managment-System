@@ -1,129 +1,108 @@
 <html>
- <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laravel 5.8 - Individual Column Search in Datatables using Ajax</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- </head>
- <body>
-  <div class="container">    
-     <br />
-     <h3 align="center">Laravel 5.8 - Custom Search in Datatables using Ajax</h3>
-     <br />
-            <br />
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <select name="filter_gender" id="filter_gender" class="form-control" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
+
+<head>
+    <meta name="_token" content="{{ csrf_token() }}">
+    <title>Live search</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <div class="text-muted">Advanced Search</div>
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="col-md-5">
+                            <div class="panel-heading">
+                                <select class="form-control" id="select-column">
+                                    <option value="0">ID</option>
+                                    <option selected value="1">Name</option>
+                                    <option value="2">Gender</option>
+                                    <option value="3">Birth Date</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group col-md-7">
+                                <input class="form-controller" id="search-by-column" style="color: grey" name="search" type="text" placeholder="Search"></input>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <select name="filter_name" id="filter_name" class="form-control" required>
-                            <option value="">Select Name</option>
-                            @foreach($patient_name as $name)
 
-                            <option value="{{ $name->name }}">{{ $name->name }}</option>
 
+                    <table class="table table-bordered table-hover" id="patients">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Birth Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach($patient as $patients)
+                                <td> {{$patients->id}} </td>
+                                <td>
+                                    <span class="ps-2">{{$patients->name}}</span>
+                                </td>
+
+                                <td> {{$patients->email}} </td>
+                                <td> {{$patients->phone}} </td>
+                                <td> {{$patients->birthDate}} </td>
+                                <td> {{$patients->gender}} </td>
+
+                            </tr>
                             @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" align="center">
-                        <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button>
+                        </tbody>
+                        
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Birth Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </tfoot>
 
-                        <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
-                    </div>
+                    </table>
                 </div>
-                <div class="col-md-4"></div>
             </div>
-            <br />
-   <div class="table-responsive">
-    <table id="patient_data" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Birth Date</th>
-                            <th>Gender</th>
-                        </tr>
-                    </thead>
-                </table>
-   </div>
-            <br />
-            <br />
-  </div>
- </body>
-</html>
+        </div>
+    </div>
 
-<script>
-$(document).ready(function(){
+    <script>
+        $(document).ready(function() {
 
-    fill_datatable();
+            function searchByColumn(table) {
+                var defaultSearch = 1
+                $(document).on('change', '#select-column', function() {
+                    defaultSearch = this.value;
+                });
+                $(document).on('change', '#search-by-column', function() {
+                    table.search('').columns().search('').draw();
+                    table.column(defaultSearch).search(this.value).draw();
+                });
 
-    function fill_datatable(filter_gender = '', filter_name = '')
-    {
-        var dataTable = $('#patient_data').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax:{
-                url: "{{ route('admin.search.index') }}",
-                data:{filter_gender:filter_gender, filter_name:filter_name}
-            },
-            columns: [
-                {
-                    data:'name',
-                    name:'name'
-                },
-                {
-                    data:'gender',
-                    name:'gender'
-                },
-                {
-                    data:'email',
-                    name:'email'
-                },
-                {
-                    data:'phone',
-                    name:'phone'
-                },
-                {
-                    data:'birthDate',
-                    name:'birthDate'
-                }
-            ]
+            }
+            var table = $('#patients').DataTable();
+            searchByColumn(table);
         });
-    }
+    </script>
+</body>
 
-    $('#filter').click(function(){
-        var filter_gender = $('#filter_gender').val();
-        var filter_country = $('#filter_name').val();
-
-        if(filter_gender != '' &&  filter_gender != '')
-        {
-            $('#patient_data').DataTable().destroy();
-            fill_datatable(filter_gender, filter_name);
-        }
-        else
-        {
-            alert('Select Both filter option');
-        }
-    });
-
-    $('#reset').click(function(){
-        $('#filter_gender').val('');
-        $('#filter_name').val('');
-        $('#patient_data').DataTable().destroy();
-        fill_datatable();
-    });
-
-});
-</script>
+</html>

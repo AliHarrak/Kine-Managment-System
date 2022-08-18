@@ -110,12 +110,13 @@ Route::get('/edit_user', [AdminController::class, 'editUser']);
 Route::put('/update_user', [AdminController::class, 'updateUser']);
 
 
-Route::get('/calendar', [CalendarController::class, 'index'])->name('index');
-Route::post('/calendarAction', [CalendarController::class, 'action'])->name('index');
+/* Route::get('/calendar', [CalendarController::class, 'index'])->name('index');
+Route::post('/calendarAction', [CalendarController::class, 'action'])->name('index'); */
 
 
-Route::get('search', [SearchController::class, 'index']);
-Route::get('ajax-autocomplete-search', [SearchController::class,'selectSearch']);
+Route::get('/show_search', [SearchController::class, 'index']);
+Route::get('/search', [SearchController::class,'search']);
+Route::get('/show_data', [SearchController::class, 'index2']);
 
 
 
